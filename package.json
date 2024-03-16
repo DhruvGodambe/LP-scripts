@@ -1,0 +1,17 @@
+{
+  "name": "lp-script",
+  "version": "1.0.0",
+  "description": "",
+  "main": "script.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@apollo/client": "^3.9.7",
+    "ethers": "^6.11.1",
+    "exceljs": "^4.4.0",
+    "graphql-request": "^6.1.0"
+  }
+}
