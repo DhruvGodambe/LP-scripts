@@ -2,10 +2,10 @@ const { ethers } = require('ethers');
 const ExcelJS = require('exceljs');
 
 // Initialize Ethereum provider
-const provider = new ethers.JsonRpcProvider('https://eth-mainnet.g.alchemy.com/v2/gE7lrrFEFvNgXKf5VdtfG1Qx8aR9hCrk');
+const provider = new ethers.JsonRpcProvider('https://opt-mainnet.g.alchemy.com/v2/LzDhqsJidA7ZALrhK_AFcsLLcW0-UsGY');
 
 // Uniswap V2 Factory Contract Address
-const factoryAddress = '0x5C69bEe701ef814a2B6a3EDD4B1652CB9cc5aA6f'; // Example address
+const factoryAddress = '0x0c3c1c532F1e39EdF36BE9Fe0bE1410313E074Bf'; // Example address
 
 // ABI for Uniswap V2 Factory Contract
 const factoryABI = [
@@ -71,7 +71,7 @@ async function fetchPairData(pairAddress, pairIndex) {
       Token1Symbol: token1Symbol,
       Token1Address: token1Address,
       Liquidity: reserve[0].toString() + ' ' + token0Symbol + ' + ' + reserve[1].toString() + ' ' + token1Symbol
-    });
+    })
     console.log("Row added")
   } catch (error) {
     console.error('Error fetching pair data:', error);
@@ -110,16 +110,16 @@ async function fetchAllPairs() {
 
     // Fetch data for each pair
     const pairStart = 0;
-    const pairEnd = 1000;
+    const pairEnd = totalPairs;
     for (let i = pairStart; i < pairEnd; i++) {
       const pairAddress = await factoryContract.allPairs(i);
-      console.log(`Pair ${i+1}/${pairEnd}, total: ${totalPairs}`);
+      console.log(`Pair ${i+1}/${pairEnd}, total: ${pairEnd}`);
       await fetchPairData(pairAddress, i);
     }
 
     // Save Excel workbook
-    await workbook.xlsx.writeFile('uniswap_v2_ethereum.xlsx');
-    console.log('Data saved to uniswap_v2_ethereum.xlsx');
+    await workbook.xlsx.writeFile('uniswap_v2_optimism.xlsx');
+    console.log('Data saved to uniswap_v2_optimism.xlsx');
   } catch (error) {
     console.error('Error fetching pairs:', error);
   }

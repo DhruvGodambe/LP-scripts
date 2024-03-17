@@ -1,7 +1,7 @@
 const { ethers } = require('ethers');
 const ExcelJS = require('exceljs');
-const factoryABI = require("./pancakeswap_factory_abi.json");
-const pairABI = require("./pancakeswap_pair_abi.json");
+const factoryABI = require("./abis/pancakeswap_v2_factory_abi.json");
+const pairABI = require("./abis/pancakeswap_pair_abi.json");
 
 // Initialize provider for Binance Smart Chain (BSC)
 const provider = new ethers.JsonRpcProvider('https://bsc-dataseed1.binance.org');
@@ -30,7 +30,7 @@ async function fetchPairsAndSaveToExcel() {
     // Get the total number of pairs
     const pairCount = await factoryContract.allPairsLength();
     const startPair = 0;
-    const endPair = 10;
+    const endPair = 1000;
 
     // Loop through each pair
     for (let i = startPair; i < endPair; i++) {
@@ -43,7 +43,6 @@ async function fetchPairsAndSaveToExcel() {
         pairContract.getReserves()
       ]);
       // Add the pair data to the worksheet
-      console.log({ pairAddress, token0, token1, liquidity: liquidity.toString() })
       worksheet.addRow({ pairAddress, token0, token1, liquidity: liquidity[2].toString() });
     }
 

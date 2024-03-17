@@ -2,10 +2,10 @@ const { ethers } = require('ethers');
 const ExcelJS = require('exceljs');
 
 // Initialize Ethereum provider
-const provider = new ethers.JsonRpcProvider('https://eth-mainnet.g.alchemy.com/v2/gE7lrrFEFvNgXKf5VdtfG1Qx8aR9hCrk');
+const provider = new ethers.JsonRpcProvider('https://bsc-dataseed1.binance.org');
 
 // Uniswap V2 Factory Contract Address
-const factoryAddress = '0x5C69bEe701ef814a2B6a3EDD4B1652CB9cc5aA6f'; // Example address
+const factoryAddress = '0x8909Dc15e40173Ff4699343b6eB8132c65e18eC6'; // Example address
 
 // ABI for Uniswap V2 Factory Contract
 const factoryABI = [
@@ -28,7 +28,7 @@ const erc20ABI = [
 
 // Initialize Excel workbook and worksheet
 const workbook = new ExcelJS.Workbook();
-const worksheet = workbook.addWorksheet('ethereum_uniswap_v2_2.xlsx');
+const worksheet = workbook.addWorksheet('bsc_uniswap_v2.xlsx');
 
 // Function to fetch data for each Uniswap V2 pair
 async function fetchPairData(pairAddress, pairIndex) {
@@ -51,17 +51,6 @@ async function fetchPairData(pairAddress, pairIndex) {
 
     // Write data to Excel worksheet
     worksheet.addRow({
-      SrNo: pairIndex + 1,
-      PairAddress: pairAddress,
-      Token0Name: token0Name,
-      Token0Symbol: token0Symbol,
-      Token0Address: token0Address,
-      Token1Name: token1Name,
-      Token1Symbol: token1Symbol,
-      Token1Address: token1Address,
-      Liquidity: reserve[0].toString() + ' ' + token0Symbol + ' + ' + reserve[1].toString() + ' ' + token1Symbol
-    });
-    console.log({
       SrNo: pairIndex + 1,
       PairAddress: pairAddress,
       Token0Name: token0Name,
@@ -110,7 +99,7 @@ async function fetchAllPairs() {
 
     // Fetch data for each pair
     const pairStart = 0;
-    const pairEnd = 1000;
+    const pairEnd = totalPairs;
     for (let i = pairStart; i < pairEnd; i++) {
       const pairAddress = await factoryContract.allPairs(i);
       console.log(`Pair ${i+1}/${pairEnd}, total: ${totalPairs}`);
@@ -118,8 +107,8 @@ async function fetchAllPairs() {
     }
 
     // Save Excel workbook
-    await workbook.xlsx.writeFile('uniswap_v2_ethereum.xlsx');
-    console.log('Data saved to uniswap_v2_ethereum.xlsx');
+    await workbook.xlsx.writeFile('uniswap_v2_bsc.xlsx');
+    console.log('Data saved to uniswap_v2_bsc.xlsx');
   } catch (error) {
     console.error('Error fetching pairs:', error);
   }
