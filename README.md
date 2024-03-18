@@ -6,7 +6,6 @@ Uniswap V2:
  - file: uniswap_v2_ethereum.js
  - command: `node uniswap/uniswap_v2_ethereum.js`
  - Note: remember to modify the value of pairStart and pairEnd variables for pagination
- - NoteL saving empty excel file
 
 Uniswap V2:
  - BSC network
@@ -14,7 +13,6 @@ Uniswap V2:
  - file: uniswap_v2_bsc.js
  - command: `node uniswap/uniswap_v2_bsc.js`
  - Note: remember to modify the value of pairStart and pairEnd variables for pagination
- - Note: saving empty excel file
 
 Uniswap V2:
  - Optimism network
@@ -22,7 +20,6 @@ Uniswap V2:
  - file: uniswap_v2_optimism.js
  - command: `node uniswap/uniswap_v2_optimism.js`   
  - Note: code needs modification, it is saving empty excel file
- - Note: script not good. Script saves empty excel file
 
 Uniswap V3:
  - Ethereum network

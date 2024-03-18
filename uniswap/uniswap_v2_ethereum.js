@@ -28,7 +28,7 @@ const erc20ABI = [
 
 // Initialize Excel workbook and worksheet
 const workbook = new ExcelJS.Workbook();
-const worksheet = workbook.addWorksheet('ethereum_uniswap_v2_2.xlsx');
+const worksheet = workbook.addWorksheet('ethereum_uniswap_v2.xlsx');
 
 // Function to fetch data for each Uniswap V2 pair
 async function fetchPairData(pairAddress, pairIndex) {
@@ -44,33 +44,20 @@ async function fetchPairData(pairAddress, pairIndex) {
     ]);
 
     // Fetch token data
-    const [token0Name, token0Symbol, token1Name, token1Symbol] = await Promise.all([
+    const [token0Name, token1Name] = await Promise.all([
       fetchTokenData(token0Address),
       fetchTokenData(token1Address)
     ]);
-
+    
     // Write data to Excel worksheet
     worksheet.addRow({
       SrNo: pairIndex + 1,
       PairAddress: pairAddress,
       Token0Name: token0Name,
-      Token0Symbol: token0Symbol,
       Token0Address: token0Address,
       Token1Name: token1Name,
-      Token1Symbol: token1Symbol,
       Token1Address: token1Address,
-      Liquidity: reserve[0].toString() + ' ' + token0Symbol + ' + ' + reserve[1].toString() + ' ' + token1Symbol
-    });
-    console.log({
-      SrNo: pairIndex + 1,
-      PairAddress: pairAddress,
-      Token0Name: token0Name,
-      Token0Symbol: token0Symbol,
-      Token0Address: token0Address,
-      Token1Name: token1Name,
-      Token1Symbol: token1Symbol,
-      Token1Address: token1Address,
-      Liquidity: reserve[0].toString() + ' ' + token0Symbol + ' + ' + reserve[1].toString() + ' ' + token1Symbol
+      Liquidity: reserve[0].toString() + ' ' + token0Name + ' + ' + reserve[1].toString() + ' ' + token1Name
     });
     console.log("Row added")
   } catch (error) {
@@ -108,9 +95,19 @@ async function fetchAllPairs() {
     const totalPairs = await factoryContract.allPairsLength();
     console.log("Total pairs: ", totalPairs);
 
+    worksheet.columns = [
+      { header: 'Sr no.', key: 'SrNo' },
+      { header: 'Pair address', key: 'PairAddress' },
+      { header: 'Token 0', key: 'Token0Name' },
+      { header: 'Token 0 ID', key: 'Token0Address' },
+      { header: 'Token 1', key: 'Token1Name' },
+      { header: 'Token 1 ID', key: 'Token1Address' },
+      { header: 'Liquidity', key: 'Liquidity' }
+    ];
+
     // Fetch data for each pair
     const pairStart = 0;
-    const pairEnd = 1000;
+    const pairEnd = 500;
     for (let i = pairStart; i < pairEnd; i++) {
       const pairAddress = await factoryContract.allPairs(i);
       console.log(`Pair ${i+1}/${pairEnd}, total: ${totalPairs}`);

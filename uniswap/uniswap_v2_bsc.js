@@ -5,7 +5,7 @@ const ExcelJS = require('exceljs');
 const provider = new ethers.JsonRpcProvider('https://bsc-dataseed1.binance.org');
 
 // Uniswap V2 Factory Contract Address
-const factoryAddress = '0x8909Dc15e40173Ff4699343b6eB8132c65e18eC6'; // Example address
+const factoryAddress = '0x8909Dc15e40173Ff4699343b6eB8132c65e18eC6'; 
 
 // ABI for Uniswap V2 Factory Contract
 const factoryABI = [
@@ -44,22 +44,20 @@ async function fetchPairData(pairAddress, pairIndex) {
     ]);
 
     // Fetch token data
-    const [token0Name, token0Symbol, token1Name, token1Symbol] = await Promise.all([
+    const [token0Name, token1Name] = await Promise.all([
       fetchTokenData(token0Address),
       fetchTokenData(token1Address)
     ]);
-
+    
     // Write data to Excel worksheet
     worksheet.addRow({
       SrNo: pairIndex + 1,
       PairAddress: pairAddress,
       Token0Name: token0Name,
-      Token0Symbol: token0Symbol,
       Token0Address: token0Address,
       Token1Name: token1Name,
-      Token1Symbol: token1Symbol,
       Token1Address: token1Address,
-      Liquidity: reserve[0].toString() + ' ' + token0Symbol + ' + ' + reserve[1].toString() + ' ' + token1Symbol
+      Liquidity: reserve[0].toString() + ' ' + token0Name + ' + ' + reserve[1].toString() + ' ' + token1Name
     });
     console.log("Row added")
   } catch (error) {
@@ -97,6 +95,16 @@ async function fetchAllPairs() {
     const totalPairs = await factoryContract.allPairsLength();
     console.log("Total pairs: ", totalPairs);
 
+    worksheet.columns = [
+      { header: 'Sr no.', key: 'SrNo' },
+      { header: 'Pair address', key: 'PairAddress' },
+      { header: 'Token 0', key: 'Token0Name' },
+      { header: 'Token 0 ID', key: 'Token0Address' },
+      { header: 'Token 1', key: 'Token1Name' },
+      { header: 'Token 1 ID', key: 'Token1Address' },
+      { header: 'Liquidity', key: 'Liquidity' }
+    ];
+
     // Fetch data for each pair
     const pairStart = 0;
     const pairEnd = totalPairs;
@@ -116,3 +124,5 @@ async function fetchAllPairs() {
 
 // Call function to fetch all pairs and save data to Excel
 fetchAllPairs();
+
+
