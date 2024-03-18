@@ -5,7 +5,7 @@ Uniswap V2:
  - Data source: on chain factory contract
  - file: uniswap_v2_ethereum.js
  - command: `node uniswap/uniswap_v2_ethereum.js`
- - Note: remember to modify the value of pairStart and pairEnd variables for pagination
+ - Note: total pairs are 300k, but I was able to store only 500 pairs in the excel sheet. Run the code for longer time to fetch all pools.
 
 Uniswap V2:
  - BSC network
